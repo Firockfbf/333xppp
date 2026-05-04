@@ -1,6 +1,7 @@
 alter table public.products enable row level security;
 alter table public.categories enable row level security;
 alter table public.collections enable row level security;
+alter table public.site_content enable row level security;
 alter table public.admin_users enable row level security;
 
 create or replace function public.is_admin()
@@ -52,6 +53,12 @@ on public.collections
 for select
 using (true);
 
+drop policy if exists "Public can read site content" on public.site_content;
+create policy "Public can read site content"
+on public.site_content
+for select
+using (true);
+
 drop policy if exists "Admins can manage categories" on public.categories;
 create policy "Admins can manage categories"
 on public.categories
@@ -62,6 +69,13 @@ with check (public.is_admin());
 drop policy if exists "Admins can manage collections" on public.collections;
 create policy "Admins can manage collections"
 on public.collections
+for all
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "Admins can manage site content" on public.site_content;
+create policy "Admins can manage site content"
+on public.site_content
 for all
 using (public.is_admin())
 with check (public.is_admin());

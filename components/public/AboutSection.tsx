@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { getSiteContent } from "@/lib/site-content";
 
-export function AboutSection() {
+export async function AboutSection() {
+  const siteContent = await getSiteContent();
+
   return (
     <section className="container-shell grid gap-6 py-10 md:grid-cols-[0.85fr_1.15fr] md:py-14">
       <div className="browser-window overflow-hidden">
@@ -12,35 +15,32 @@ export function AboutSection() {
         </div>
         <div className="bg-[#ffd7ef] p-6 text-black">
           <p className="font-serif text-4xl font-bold uppercase leading-none text-[#ff1493]">
-            upcycling
-            <span className="block text-black">as attitude</span>
+            {siteContent.about_title}
+            <span className="block text-black">{siteContent.about_subtitle}</span>
           </p>
           <p className="mt-4 text-sm leading-6 text-black/75">
-            Handmade, anti-fast fashion, no-gender and rooted in underground
-            culture.
+            {siteContent.about_intro}
           </p>
         </div>
       </div>
 
       <div className="magazine-panel rounded-[1.2rem] p-6 sm:p-8">
-        <p className="max-w-3xl text-base leading-8 text-white/78">
-          333XPPP works from reclaimed garments and materials, pushing them into
-          a darker editorial and internet-born space through hand sewing,
-          painting, embroidery, knitting and experimental surface treatment. The
-          project is no-gender, anti-normative and deeply opposed to fast
-          fashion logic.
-        </p>
+        <div className="space-y-4">
+          {siteContent.about_body.map((paragraph) => (
+            <p key={paragraph} className="max-w-3xl text-base leading-8 text-white/78">
+              {paragraph}
+            </p>
+          ))}
+        </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          {["Handmade", "No gender", "One of one", "DIY", "Underground"].map(
-            (tag) => (
-              <span
-                key={tag}
-                className="mono-label stamped-label px-4 py-3 text-[11px] text-white/78"
-              >
-                {tag}
-              </span>
-            ),
-          )}
+          {siteContent.about_tags.map((tag) => (
+            <span
+              key={tag}
+              className="mono-label stamped-label px-4 py-3 text-[11px] text-white/78"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
         <Link
           href="/about"

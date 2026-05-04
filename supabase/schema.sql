@@ -44,6 +44,30 @@ create table if not exists public.collections (
   sort_order integer not null default 0
 );
 
+create table if not exists public.site_content (
+  id text primary key default 'main',
+  updated_at timestamptz not null default now(),
+  hero_issue_title text not null default 'Issue 01 / Bubble Threat',
+  hero_issue_copy text not null default 'A dark-cute Y2K portal for upcycled clothes, one-of-one drops and anti-clean styling.',
+  hero_card_title text not null default 'Cool girl alert!',
+  hero_card_body text not null default '333XPPP CLOTHES is an upcycled, handmade and no-gender fashion project. Each piece is reworked by hand through sewing, painting, embroidery, knitting and textile experimentation.',
+  hero_notes text[] not null default '{"2000s website aesthetic","kitsch magazine","upcycled handmade clothing"}',
+  hero_mood_tags text[] not null default '{"cool girl alert","drop archive","teen portal","clubwear","DIY"}',
+  hero_manifesto text[] not null default '{"Offer alternatives to capitalism fashion.","Clothes and objects thought as artworks.","Trashy over clean. Human over mass production."}',
+  hero_primary_image_url text,
+  hero_secondary_image_url text,
+  hero_manifesto_image_url text,
+  about_title text not null default 'upcycling',
+  about_subtitle text not null default 'as attitude',
+  about_intro text not null default 'Handmade, anti-fast fashion, no-gender and rooted in underground culture.',
+  about_body text[] not null default '{"333XPPP works from reclaimed garments and materials, pushing them into a darker editorial and internet-born space through hand sewing, painting, embroidery, knitting and experimental surface treatment.","The project is no-gender, anti-normative and deeply opposed to fast fashion logic."}',
+  about_tags text[] not null default '{"Handmade","No gender","One of one","DIY","Underground"}',
+  about_image_url text,
+  contact_title text not null default 'DM to buy',
+  contact_subtitle text not null default 'DM to commission',
+  contact_body text not null default 'Orders happen through Instagram DM in this first version. Custom pieces are open on request depending on materials, timeline and concept.'
+);
+
 create table if not exists public.admin_users (
   user_id uuid primary key references auth.users(id) on delete cascade,
   created_at timestamptz not null default now()
@@ -65,6 +89,12 @@ before update on public.products
 for each row
 execute function public.handle_updated_at();
 
+drop trigger if exists site_content_set_updated_at on public.site_content;
+create trigger site_content_set_updated_at
+before update on public.site_content
+for each row
+execute function public.handle_updated_at();
+
 insert into public.categories (name, slug, sort_order)
 values
   ('Tops', 'tops', 1),
@@ -80,6 +110,10 @@ on conflict (slug) do update
 set
   name = excluded.name,
   sort_order = excluded.sort_order;
+
+insert into public.site_content (id)
+values ('main')
+on conflict (id) do nothing;
 
 insert into storage.buckets (id, name, public)
 values ('product-images', 'product-images', true)

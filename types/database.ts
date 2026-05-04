@@ -20,6 +20,30 @@ export type CollectionRecord = {
   sort_order: number;
 };
 
+export type SiteContentRecord = {
+  id: string;
+  updated_at: string;
+  hero_issue_title: string;
+  hero_issue_copy: string;
+  hero_card_title: string;
+  hero_card_body: string;
+  hero_notes: string[];
+  hero_mood_tags: string[];
+  hero_manifesto: string[];
+  hero_primary_image_url: string | null;
+  hero_secondary_image_url: string | null;
+  hero_manifesto_image_url: string | null;
+  about_title: string;
+  about_subtitle: string;
+  about_intro: string;
+  about_body: string[];
+  about_tags: string[];
+  about_image_url: string | null;
+  contact_title: string;
+  contact_subtitle: string;
+  contact_body: string;
+};
+
 export type ProductRecord = {
   id: string;
   created_at: string;
@@ -49,3 +73,5 @@ export type ProductPayload = Omit<
   ProductRecord,
   "id" | "created_at" | "updated_at"
 >;
+
+export type SiteContentPayload = Omit<SiteContentRecord, "updated_at">;

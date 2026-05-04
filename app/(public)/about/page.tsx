@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { INSTAGRAM_URL } from "@/lib/constants";
+import { getSiteContent } from "@/lib/site-content";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const siteContent = await getSiteContent();
+
   return (
     <section className="container-shell py-10 md:py-14">
       <div className="grid gap-6 md:grid-cols-[0.8fr_1.2fr]">
@@ -15,13 +18,13 @@ export default function AboutPage() {
           <div className="paper-grid bg-[#ffd7ef] p-6 text-black">
             <p className="mono-label text-xs text-black/55">About</p>
             <h1 className="mt-3 font-serif text-4xl font-bold uppercase leading-none text-[#ff1493] sm:text-6xl">
-              handmade
-              <span className="block text-black">no gender</span>
+              {siteContent.about_title}
+              <span className="block text-black">{siteContent.about_subtitle}</span>
             </h1>
             <div className="mt-6 paper-panel overflow-hidden">
               <div className="relative aspect-[4/5] bg-black">
                 <Image
-                  src="/brand/models/model-black-jacket.png"
+                  src={siteContent.about_image_url || "/brand/models/model-black-jacket.png"}
                   alt="333XPPP lookbook"
                   fill
                   className="object-cover"
@@ -34,36 +37,21 @@ export default function AboutPage() {
 
         <div className="magazine-panel p-6 sm:p-8">
           <div className="space-y-5 text-base leading-8 text-white/74">
-            <p>
-              333XPPP is an upcycled clothing project focused on reconstruction,
-              textile experimentation and a strong anti-fashion attitude. The
-              creator works directly on existing garments and materials to build
-              pieces that feel raw, lived-in, edited and emotionally charged.
-            </p>
-            <p>
-              The process includes sewing, painting, embroidery, knitting,
-              distressing, patching and handmade interventions that make each
-              garment singular. The project is no gender, anti-normative and
-              openly resistant to disposable trend cycles.
-            </p>
-            <p>
-              Sustainability here is practical and radical: extending the life of
-              existing textiles, producing in one-of-one or very small series,
-              and rejecting fast-fashion overproduction.
-            </p>
+            <p>{siteContent.about_intro}</p>
+            {siteContent.about_body.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
-            {["upcycled", "editorial trash", "anti fast fashion", "DIY", "club kid", "archive mood"].map(
-              (tag) => (
-                <span
-                  key={tag}
-                  className="mono-label stamped-label px-4 py-3 text-[11px] text-white/80"
-                >
-                  {tag}
-                </span>
-              ),
-            )}
+            {siteContent.about_tags.map((tag) => (
+              <span
+                key={tag}
+                className="mono-label stamped-label px-4 py-3 text-[11px] text-white/80"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
 
           <a

@@ -1,6 +1,9 @@
 import { CONTACT_EMAIL, INSTAGRAM_URL } from "@/lib/constants";
+import { getSiteContent } from "@/lib/site-content";
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const siteContent = await getSiteContent();
+
   return (
     <section className="container-shell py-10 md:py-14">
       <div className="browser-window overflow-hidden">
@@ -13,8 +16,8 @@ export default function ContactPage() {
         <div className="paper-grid bg-[#ffd7ef] p-6 text-black sm:p-8 md:p-10">
           <p className="mono-label text-xs text-black/55">Contact</p>
           <h1 className="mt-3 font-serif text-4xl font-bold uppercase leading-none text-[#ff1493] sm:text-6xl">
-            orders by dm
-            <span className="block text-black">custom work welcome</span>
+            {siteContent.contact_title}
+            <span className="block text-black">{siteContent.contact_subtitle}</span>
           </h1>
 
           <div className="mt-6 grid gap-5 md:grid-cols-2">
@@ -44,9 +47,7 @@ export default function ContactPage() {
           </div>
 
           <p className="mt-6 max-w-2xl text-base leading-8 text-black/72">
-            Purchases happen through Instagram DM for the first release of the
-            site. You can also reach out there for custom pieces, fit questions,
-            availability or archive references.
+            {siteContent.contact_body}
           </p>
         </div>
       </div>

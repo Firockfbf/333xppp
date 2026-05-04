@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FolderTree, LayoutDashboard, LogOut, Plus, Shirt } from "lucide-react";
+import { FileText, FolderTree, LayoutDashboard, LogOut, Plus, Shirt } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const links = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Products", icon: Shirt },
   { href: "/admin/products/new", label: "Add new", icon: Plus },
+  { href: "/admin/content", label: "Site content", icon: FileText },
   { href: "/admin/library", label: "Types & collections", icon: FolderTree },
 ];
 

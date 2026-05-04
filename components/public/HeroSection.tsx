@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { INSTAGRAM_URL } from "@/lib/constants";
-import { siteEditorial } from "@/lib/site-content";
+import { getSiteContent } from "@/lib/site-content";
 
-export function HeroSection() {
+export async function HeroSection() {
+  const siteContent = await getSiteContent();
+
   return (
     <section className="container-shell overflow-x-clip py-6 md:py-10">
       <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
@@ -20,7 +22,7 @@ export function HeroSection() {
             <div className="grid gap-5 bg-[#f5b7df] p-4 sm:p-5 2xl:grid-cols-[0.85fr_1.15fr]">
               <div className="min-w-0 space-y-4 rounded-[1.1rem] border-2 border-black/30 bg-[#ef83c7] p-4 text-black shadow-[inset_0_0_0_2px_rgba(255,255,255,0.3)]">
                 <p className="font-mono text-[11px] uppercase tracking-[0.25em]">
-                  {siteEditorial.issueTitle}
+                  {siteContent.hero_issue_title}
                 </p>
                 <div className="chrome-logo-wrap flex items-center justify-center rounded-[1rem] border-2 border-black/20 bg-white/30 p-4">
                   <Image
@@ -33,26 +35,24 @@ export function HeroSection() {
                   />
                 </div>
                 <p className="text-sm leading-6 text-black/75">
-                  {siteEditorial.issueCopy}
+                  {siteContent.hero_issue_copy}
                 </p>
               </div>
 
               <div className="min-w-0 space-y-4">
                 <div className="soft-card rounded-[1rem] p-3 text-black">
                   <p className="magazine-title break-words font-serif text-[1.7rem] font-bold uppercase leading-none tracking-wide text-[#ff1493] sm:text-[2.25rem] lg:text-[2.6rem]">
-                    Cool girl alert!
+                    {siteContent.hero_card_title}
                   </p>
                   <p className="mt-2 text-sm leading-6 text-black/75">
-                    333XPPP CLOTHES is an upcycled, handmade and no-gender fashion
-                    project. Each piece is reworked by hand through sewing,
-                    painting, embroidery, knitting and textile experimentation.
+                    {siteContent.hero_card_body}
                   </p>
                 </div>
 
                 <div className="grid gap-3 lg:grid-cols-[1.05fr_0.95fr]">
                   <div className="pixel-frame overflow-hidden bg-black">
                     <Image
-                      src="/brand/models/model-black-jacket.png"
+                      src={siteContent.hero_primary_image_url || "/brand/models/model-black-jacket.png"}
                       alt="333XPPP editorial model"
                       width={706}
                       height={768}
@@ -62,7 +62,7 @@ export function HeroSection() {
                   <div className="grid min-w-0 gap-3">
                     <div className="pixel-frame overflow-hidden bg-black">
                       <Image
-                        src="/brand/models/model-camo.png"
+                        src={siteContent.hero_secondary_image_url || "/brand/models/model-camo.png"}
                         alt="Y2K model look"
                         width={386}
                         height={551}
@@ -74,7 +74,7 @@ export function HeroSection() {
                         moodboard
                       </p>
                       <div className="mt-3 flex flex-wrap gap-2">
-                        {siteEditorial.moodTags.map((tag) => (
+                        {siteContent.hero_mood_tags.map((tag) => (
                           <span
                             key={tag}
                             className="stamped-label px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-white"
@@ -135,12 +135,14 @@ export function HeroSection() {
         <div className="grid min-w-0 gap-5">
           <div className="magazine-panel rounded-[1.2rem] p-4">
             <p className="break-words font-serif text-4xl font-bold uppercase leading-none text-white">
-              2000s
-              <span className="block text-accent">website aesthetic</span>
+              {siteContent.hero_notes[0] || "2000s"}
+              <span className="block text-accent">
+                {siteContent.hero_notes[1] || "website aesthetic"}
+              </span>
             </p>
             <p className="mt-4 max-w-sm text-sm leading-6 text-white/72">
-              Dark portal, brat archive, upcycled pieces and hand-touched
-              textures. Less boutique, more online issue.
+              {siteContent.hero_notes[2] ||
+                "Dark portal, brat archive, upcycled pieces and hand-touched textures."}
             </p>
           </div>
 
@@ -150,14 +152,14 @@ export function HeroSection() {
                 manifesto
               </p>
               <ul className="mt-4 space-y-3 text-sm leading-6 text-white/74">
-                {siteEditorial.manifesto.map((line) => (
+                {siteContent.hero_manifesto.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
               </ul>
             </div>
             <div className="pixel-frame min-w-0 overflow-hidden bg-black">
               <Image
-                src="/brand/models/model-jeans-graffiti.png"
+                src={siteContent.hero_manifesto_image_url || "/brand/models/model-jeans-graffiti.png"}
                 alt="333XPPP editorial model in jeans"
                 width={341}
                 height={604}

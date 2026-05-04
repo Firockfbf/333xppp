@@ -22,3 +22,26 @@ export const productSchema = z.object({
   instagram_post_url: z.string().url().nullable(),
   sort_order: z.number().int().nullable(),
 });
+
+export const siteContentSchema = z.object({
+  id: z.literal("main"),
+  hero_issue_title: z.string().min(2),
+  hero_issue_copy: z.string().min(8),
+  hero_card_title: z.string().min(2),
+  hero_card_body: z.string().min(8),
+  hero_notes: z.array(z.string().min(1)).min(1),
+  hero_mood_tags: z.array(z.string().min(1)).min(1),
+  hero_manifesto: z.array(z.string().min(1)).min(1),
+  hero_primary_image_url: z.string().url().nullable(),
+  hero_secondary_image_url: z.string().url().nullable(),
+  hero_manifesto_image_url: z.string().url().nullable(),
+  about_title: z.string().min(2),
+  about_subtitle: z.string().min(2),
+  about_intro: z.string().min(8),
+  about_body: z.array(z.string().min(1)).min(1),
+  about_tags: z.array(z.string().min(1)).min(1),
+  about_image_url: z.string().url().nullable(),
+  contact_title: z.string().min(2),
+  contact_subtitle: z.string().min(2),
+  contact_body: z.string().min(8),
+});
