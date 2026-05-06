@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { getSiteContent } from "@/lib/site-content";
 
@@ -11,7 +10,7 @@ export async function HeroSection() {
     <section className="container-shell overflow-x-clip py-6 md:py-10">
       <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
         <div className="min-w-0 space-y-5">
-          <div className="browser-window public-frame star-sparkle animate-rise overflow-hidden">
+          <div className="browser-window star-sparkle animate-rise overflow-hidden">
             <div className="browser-bar">
               <span className="browser-dot" />
               <span className="browser-dot" />
@@ -20,11 +19,11 @@ export async function HeroSection() {
             </div>
 
             <div className="grid gap-5 bg-[#f5b7df] p-4 sm:p-5 2xl:grid-cols-[0.85fr_1.15fr]">
-              <div className="min-w-0 space-y-4 rounded-[1.1rem] border-2 border-black/30 bg-[#ef83c7] p-4 text-black shadow-[inset_0_0_0_2px_rgba(255,255,255,0.3)]">
+              <div className="min-w-0 space-y-4 bg-[#ef83c7] p-4 text-black">
                 <p className="font-mono text-[11px] uppercase tracking-[0.25em]">
                   {siteContent.hero_issue_title}
                 </p>
-                <div className="chrome-logo-wrap flex items-center justify-center rounded-[1rem] border-2 border-black/20 bg-white/30 p-4">
+                <div className="chrome-logo-wrap flex items-center justify-center bg-white/25 p-4">
                   <Image
                     src="/brand/logos/logo-chrome.png"
                     alt="333XPPP chrome logo"
@@ -40,7 +39,7 @@ export async function HeroSection() {
               </div>
 
               <div className="min-w-0 space-y-4">
-                <div className="soft-card rounded-[1rem] p-3 text-black">
+                <div className="bg-white/55 p-3 text-black">
                   <p className="magazine-title break-words font-serif text-[1.7rem] font-bold uppercase leading-none tracking-wide text-[#ff1493] sm:text-[2.25rem] lg:text-[2.6rem]">
                     {siteContent.hero_card_title}
                   </p>
@@ -50,7 +49,7 @@ export async function HeroSection() {
                 </div>
 
                 <div className="grid gap-3 lg:grid-cols-[1.05fr_0.95fr]">
-                  <div className="pixel-frame overflow-hidden bg-black">
+                  <div className="image-panel bg-black">
                     <Image
                       src={siteContent.hero_primary_image_url || "/brand/models/model-black-jacket.png"}
                       alt="333XPPP editorial model"
@@ -60,7 +59,7 @@ export async function HeroSection() {
                     />
                   </div>
                   <div className="grid min-w-0 gap-3">
-                    <div className="pixel-frame overflow-hidden bg-black">
+                    <div className="image-panel bg-black">
                       <Image
                         src={siteContent.hero_secondary_image_url || "/brand/models/model-camo.png"}
                         alt="Y2K model look"
@@ -69,7 +68,7 @@ export async function HeroSection() {
                         className="h-full w-full object-cover"
                       />
                     </div>
-                    <div className="magazine-panel rounded-[1rem] p-4">
+                    <div className="magazine-panel p-4">
                       <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/55">
                         moodboard
                       </p>
@@ -87,21 +86,20 @@ export async function HeroSection() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                   <Link
                     href="/shop"
-                    className="brutal-button inline-flex items-center justify-center gap-2 bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#181818]"
+                    className="brutal-button inline-flex items-center justify-center bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#181818]"
                   >
                     Shop the pieces
-                    <ArrowUpRight size={16} />
                   </Link>
                   <a
                     href={INSTAGRAM_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="brutal-button inline-flex items-center justify-center gap-2 border border-black/30 bg-white/65 px-6 py-3 text-sm font-semibold text-black transition hover:bg-white"
+                    className="mono-label text-[11px] text-black/68 underline-offset-4 transition hover:text-black hover:underline"
                   >
-                    Instagram
+                    Open Instagram
                   </a>
                 </div>
               </div>
@@ -133,7 +131,7 @@ export async function HeroSection() {
         </div>
 
         <div className="grid min-w-0 gap-5">
-          <div className="magazine-panel rounded-[1.2rem] p-4">
+          <div className="magazine-panel p-4">
             <p className="break-words font-serif text-4xl font-bold uppercase leading-none text-white">
               {siteContent.hero_notes[0] || "2000s"}
               <span className="block text-accent">
@@ -147,7 +145,7 @@ export async function HeroSection() {
           </div>
 
           <div className="grid gap-4 2xl:grid-cols-2">
-            <div className="soft-card min-w-0 rounded-[1rem] p-4">
+            <div className="soft-card min-w-0 p-4">
               <p className="font-serif text-2xl font-bold uppercase text-[#ffc8e8]">
                 manifesto
               </p>
@@ -157,7 +155,7 @@ export async function HeroSection() {
                 ))}
               </ul>
             </div>
-            <div className="pixel-frame min-w-0 overflow-hidden bg-black">
+            <div className="image-panel min-w-0 bg-black">
               <Image
                 src={siteContent.hero_manifesto_image_url || "/brand/models/model-jeans-graffiti.png"}
                 alt="333XPPP editorial model in jeans"

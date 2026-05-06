@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { ProductCard } from "@/components/public/ProductCard";
 import type { ProductRecord } from "@/types/database";
 
@@ -16,10 +15,9 @@ export function FeaturedProducts({ products }: { products: ProductRecord[] }) {
         </div>
         <Link
           href="/shop"
-          className="brutal-button hidden items-center gap-2 border border-white/15 bg-white/5 px-4 py-2 text-sm font-medium text-accent md:inline-flex"
+          className="mono-label hidden text-[11px] text-accent underline underline-offset-4 transition hover:text-white md:inline-flex"
         >
           View all pieces
-          <ArrowUpRight size={16} />
         </Link>
       </div>
 

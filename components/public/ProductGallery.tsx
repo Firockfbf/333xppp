@@ -42,15 +42,9 @@ export function ProductGallery({
             key={`${image}-${index}`}
             type="button"
             onClick={() => setActiveImage(image)}
-            className={cn(
-              "browser-window overflow-hidden transition",
-              activeImage === image ? "translate-y-[-2px]" : "opacity-90 hover:opacity-100",
-            )}
+            data-active={activeImage === image}
+            className={cn("thumbnail-frame", activeImage === image ? "translate-y-[-2px]" : "opacity-90 hover:opacity-100")}
           >
-            <div className="browser-bar">
-              <span className="browser-dot" />
-              <span>{index + 1}</span>
-            </div>
             {image === "/placeholder-product.svg" ? (
               <div className="aspect-[4/5] bg-[linear-gradient(180deg,rgba(255,45,166,0.16),rgba(255,255,255,0.04)),linear-gradient(180deg,#151515,#080808)]" />
             ) : (

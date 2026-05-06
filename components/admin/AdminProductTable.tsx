@@ -40,86 +40,96 @@ export function AdminProductTable({ products }: { products: ProductRecord[] }) {
 
   return (
     <>
-      <div className="admin-card overflow-hidden rounded-[1.8rem]">
-        <div className="overflow-x-auto">
-          <table className="min-w-full text-left text-sm">
-            <thead className="bg-zinc-50 text-zinc-500">
-              <tr>
-                <th className="px-5 py-4 font-medium">Product</th>
-                <th className="px-5 py-4 font-medium">Price</th>
-                <th className="px-5 py-4 font-medium">Category</th>
-                <th className="px-5 py-4 font-medium">Status</th>
-                <th className="px-5 py-4 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product.id} className="border-t border-black/6">
-                  <td className="px-5 py-4">
-                    <div className="flex items-center gap-4">
-                      <div className="h-16 w-12 overflow-hidden rounded-xl bg-zinc-100">
-                        {product.main_image_url ? (
-                          <img
-                            src={product.main_image_url}
-                            alt={product.name}
-                            className="h-full w-full object-cover"
-                          />
-                        ) : null}
-                      </div>
-                      <div>
-                        <p className="font-medium text-black">{product.name}</p>
-                        <p className="text-xs text-zinc-500">
-                          {formatSizeLabel(product.size, product.size_system)}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-5 py-4 text-zinc-700">
-                    {formatCurrency(product.price)}
-                  </td>
-                  <td className="px-5 py-4 text-zinc-700">{product.category}</td>
-                  <td className="px-5 py-4">
-                    <StatusBadge status={product.status} admin />
-                  </td>
-                  <td className="px-5 py-4">
-                    <div className="flex flex-wrap gap-2">
-                      <Link
-                        href={`/admin/products/${product.id}/edit`}
-                        className="inline-flex items-center gap-2 rounded-full border border-black/10 px-3 py-2 text-xs font-medium text-black"
-                      >
-                        <Pencil size={13} />
-                        Edit
-                      </Link>
-                      <button
-                        type="button"
-                        onClick={() => setPendingDelete(product)}
-                        className="inline-flex items-center gap-2 rounded-full border border-black/10 px-3 py-2 text-xs font-medium text-black"
-                      >
-                        <Trash2 size={13} />
-                        Delete
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => updateStatus(product.id, "sold")}
-                        className="rounded-full bg-black px-3 py-2 text-xs font-medium text-white"
-                      >
-                        Mark sold
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => updateStatus(product.id, "reserved")}
-                        className="rounded-full border border-black/10 px-3 py-2 text-xs font-medium text-black"
-                      >
-                        Mark reserved
-                      </button>
-                    </div>
-                  </td>
+      {products.length ? (
+        <div className="admin-card overflow-hidden rounded-[1.8rem]">
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-left text-sm">
+              <thead className="bg-zinc-50 text-zinc-500">
+                <tr>
+                  <th className="px-5 py-4 font-medium">Product</th>
+                  <th className="px-5 py-4 font-medium">Price</th>
+                  <th className="px-5 py-4 font-medium">Category</th>
+                  <th className="px-5 py-4 font-medium">Status</th>
+                  <th className="px-5 py-4 font-medium">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product.id} className="border-t border-black/6">
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="h-16 w-12 overflow-hidden rounded-xl bg-zinc-100">
+                          {product.main_image_url ? (
+                            <img
+                              src={product.main_image_url}
+                              alt={product.name}
+                              className="h-full w-full object-cover"
+                            />
+                          ) : null}
+                        </div>
+                        <div>
+                          <p className="font-medium text-black">{product.name}</p>
+                          <p className="text-xs text-zinc-500">
+                            {formatSizeLabel(product.size, product.size_system)}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-5 py-4 text-zinc-700">
+                      {formatCurrency(product.price)}
+                    </td>
+                    <td className="px-5 py-4 text-zinc-700">{product.category}</td>
+                    <td className="px-5 py-4">
+                      <StatusBadge status={product.status} admin />
+                    </td>
+                    <td className="px-5 py-4">
+                      <div className="flex flex-wrap gap-2">
+                        <Link
+                          href={`/admin/products/${product.id}/edit`}
+                          className="inline-flex items-center gap-2 rounded-full border border-black/10 px-3 py-2 text-xs font-medium text-black"
+                        >
+                          <Pencil size={13} />
+                          Edit
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setPendingDelete(product)}
+                          className="inline-flex items-center gap-2 rounded-full border border-black/10 px-3 py-2 text-xs font-medium text-black"
+                        >
+                          <Trash2 size={13} />
+                          Delete
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateStatus(product.id, "sold")}
+                          className="rounded-full bg-black px-3 py-2 text-xs font-medium text-white"
+                        >
+                          Mark sold
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => updateStatus(product.id, "reserved")}
+                          className="rounded-full border border-black/10 px-3 py-2 text-xs font-medium text-black"
+                        >
+                          Mark reserved
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="admin-card rounded-[1.8rem] p-8 text-center">
+          <p className="text-lg font-semibold text-black">No products yet</p>
+          <p className="mt-2 text-sm text-zinc-600">
+            Starter products can be inserted into Supabase so the admin feels ready to
+            use from day one.
+          </p>
+        </div>
+      )}
 
       <ConfirmDeleteModal
         open={Boolean(pendingDelete)}

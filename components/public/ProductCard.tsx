@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { formatCurrency, formatSizeLabel } from "@/lib/utils";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import type { ProductRecord } from "@/types/database";
@@ -59,10 +58,9 @@ export function ProductCard({ product }: { product: ProductRecord }) {
 
         <Link
           href={`/shop/${product.slug}`}
-          className="brutal-button inline-flex items-center gap-2 bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-[#1b1b1b]"
+          className="mono-label inline-flex text-[11px] text-black underline underline-offset-4 transition hover:text-[#ff1493]"
         >
           View piece
-          <ArrowUpRight size={16} />
         </Link>
       </div>
     </article>

@@ -15,6 +15,33 @@ import type {
   ProductStatus,
 } from "@/types/database";
 
+async function fetchProducts({
+  includeDemoFallback,
+}: {
+  includeDemoFallback: boolean;
+}): Promise<ProductRecord[]> {
+  if (!isSupabaseConfigured()) {
+    return includeDemoFallback ? demoProducts : [];
+  }
+
+  const supabase = await createServerSupabaseClient();
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .order("sort_order", { ascending: true, nullsFirst: false })
+    .order("created_at", { ascending: false });
+
+  if (error || !data) {
+    return includeDemoFallback ? demoProducts : [];
+  }
+
+  if (!data.length) {
+    return includeDemoFallback ? demoProducts : [];
+  }
+
+  return data.map((row) => normalizeProduct(row as ProductRecord));
+}
+
 function normalizeProduct(row: Partial<ProductRecord>): ProductRecord {
   return {
     id: row.id ?? crypto.randomUUID(),
@@ -45,22 +72,7 @@ function normalizeProduct(row: Partial<ProductRecord>): ProductRecord {
 }
 
 export const getProducts = cache(async () => {
-  if (!isSupabaseConfigured()) {
-    return demoProducts;
-  }
-
-  const supabase = await createServerSupabaseClient();
-  const { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .order("sort_order", { ascending: true, nullsFirst: false })
-    .order("created_at", { ascending: false });
-
-  if (error || !data || !data.length) {
-    return demoProducts;
-  }
-
-  return data.map((row) => normalizeProduct(row as ProductRecord));
+  return fetchProducts({ includeDemoFallback: true });
 });
 
 export const getProductBySlug = cache(async (slug: string) => {
@@ -69,8 +81,12 @@ export const getProductBySlug = cache(async (slug: string) => {
 });
 
 export const getProductById = cache(async (id: string) => {
-  const products = await getProducts();
+  const products = await fetchProducts({ includeDemoFallback: false });
   return products.find((product) => product.id === id) ?? null;
+});
+
+export const getAdminProducts = cache(async () => {
+  return fetchProducts({ includeDemoFallback: false });
 });
 
 export async function getFeaturedProducts() {
@@ -90,7 +106,7 @@ export async function getLatestDropProducts() {
 }
 
 export async function getAdminStats() {
-  const products = await getProducts();
+  const products = await fetchProducts({ includeDemoFallback: false });
 
   return {
     total: products.length,

@@ -49,11 +49,6 @@ export function ProductFilters({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <span className="mono-label chrome-pill px-3 py-2 text-[10px]">all pieces</span>
-          <span className="mono-label chrome-pill px-3 py-2 text-[10px]">archive online</span>
-        </div>
-
         <div className="mt-4">
           <p className="section-kicker mono-label mb-3 text-[11px] text-black/55">Status</p>
           <div className="flex flex-wrap gap-2">

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { AdminProductTable } from "@/components/admin/AdminProductTable";
-import { getProducts } from "@/lib/products";
+import { getAdminProducts } from "@/lib/products";
 
 export default async function AdminProductsPage() {
-  const products = await getProducts();
+  const products = await getAdminProducts();
 
   return (
     <div className="space-y-6">
