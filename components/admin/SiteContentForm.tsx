@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import type { SiteContentRecord } from "@/types/database";
 
 function linesToText(value: string[]) {
@@ -35,20 +36,35 @@ function ImageField({ label, value, onChange }: ImageFieldProps) {
     setError(null);
 
     try {
-      const formData = new FormData();
-      formData.append("files", file);
-
-      const response = await fetch("/api/admin/upload", {
+      const response = await fetch("/api/admin/upload/sign", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          files: [{ name: file.name }],
+        }),
       });
       const result = await response.json();
 
-      if (!response.ok || !result.urls?.[0]) {
+      if (!response.ok || !result.uploads?.[0]) {
         throw new Error(result.error || "Unable to upload image.");
       }
 
-      onChange(result.urls[0]);
+      const upload = result.uploads[0] as {
+        path: string;
+        token: string;
+        publicUrl: string;
+      };
+
+      const supabase = createClient();
+      const { error } = await supabase.storage
+        .from("product-images")
+        .uploadToSignedUrl(upload.path, upload.token, file);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      onChange(upload.publicUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to upload image.");
     } finally {

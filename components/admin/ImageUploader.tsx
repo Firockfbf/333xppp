@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ImagePlus, LoaderCircle, Star, Trash2 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 type Props = {
   images: string[];
@@ -27,12 +28,12 @@ export function ImageUploader({
     setError(null);
 
     try {
-      const formData = new FormData();
-      files.forEach((file) => formData.append("files", file));
-
-      const response = await fetch("/api/admin/upload", {
+      const response = await fetch("/api/admin/upload/sign", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          files: files.map((file) => ({ name: file.name })),
+        }),
       });
 
       const result = await response.json();
@@ -40,7 +41,31 @@ export function ImageUploader({
         throw new Error(result.error || "Image upload failed.");
       }
 
-      const uploadedUrls = result.urls as string[];
+      const uploads = result.uploads as Array<{
+        path: string;
+        token: string;
+        publicUrl: string;
+      }>;
+
+      const supabase = createClient();
+      const uploadedUrls: string[] = [];
+
+      for (const [index, file] of files.entries()) {
+        const upload = uploads[index];
+        if (!upload) {
+          throw new Error("Missing upload slot.");
+        }
+
+        const { error } = await supabase.storage
+          .from("product-images")
+          .uploadToSignedUrl(upload.path, upload.token, file);
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        uploadedUrls.push(upload.publicUrl);
+      }
 
       const nextImages = [...images, ...uploadedUrls];
       onChange(nextImages);
