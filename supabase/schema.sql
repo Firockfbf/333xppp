@@ -54,6 +54,7 @@ create table if not exists public.site_content (
   hero_notes text[] not null default '{"2000s website aesthetic","kitsch magazine","upcycled handmade clothing"}',
   hero_mood_tags text[] not null default '{"cool girl alert","drop archive","teen portal","clubwear","DIY"}',
   hero_manifesto text[] not null default '{"Offer alternatives to capitalism fashion.","Clothes and objects thought as artworks.","Trashy over clean. Human over mass production."}',
+  brand_logo_url text,
   hero_primary_image_url text,
   hero_secondary_image_url text,
   hero_manifesto_image_url text,
@@ -71,6 +72,9 @@ create table if not exists public.site_content (
 
 alter table public.site_content
 add column if not exists latest_drop_image_url text;
+
+alter table public.site_content
+add column if not exists brand_logo_url text;
 
 create table if not exists public.admin_users (
   user_id uuid primary key references auth.users(id) on delete cascade,

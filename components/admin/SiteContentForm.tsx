@@ -159,6 +159,7 @@ export function SiteContentForm({
   const [heroNotes, setHeroNotes] = useState(linesToText(initialContent.hero_notes));
   const [heroMoodTags, setHeroMoodTags] = useState(linesToText(initialContent.hero_mood_tags));
   const [heroManifesto, setHeroManifesto] = useState(linesToText(initialContent.hero_manifesto));
+  const [brandLogoUrl, setBrandLogoUrl] = useState(initialContent.brand_logo_url);
   const [heroPrimaryImageUrl, setHeroPrimaryImageUrl] = useState(initialContent.hero_primary_image_url);
   const [heroSecondaryImageUrl, setHeroSecondaryImageUrl] = useState(initialContent.hero_secondary_image_url);
   const [heroManifestoImageUrl, setHeroManifestoImageUrl] = useState(initialContent.hero_manifesto_image_url);
@@ -183,6 +184,7 @@ export function SiteContentForm({
       hero_notes: textToLines(heroNotes),
       hero_mood_tags: textToLines(heroMoodTags),
       hero_manifesto: textToLines(heroManifesto),
+      brand_logo_url: brandLogoUrl || null,
       hero_primary_image_url: heroPrimaryImageUrl || null,
       hero_secondary_image_url: heroSecondaryImageUrl || null,
       hero_manifesto_image_url: heroManifestoImageUrl || null,
@@ -205,6 +207,7 @@ export function SiteContentForm({
       aboutTags,
       aboutTitle,
       contactBody,
+      brandLogoUrl,
       contactSubtitle,
       contactTitle,
       heroCardBody,
@@ -288,6 +291,13 @@ export function SiteContentForm({
             <textarea className="admin-input min-h-32" value={heroManifesto} onChange={(event) => setHeroManifesto(event.target.value)} />
             <p className="mt-2 text-xs text-zinc-500">One line = one sentence.</p>
           </div>
+
+          <ImageField
+            label="Main brand logo"
+            helpText="Used in both the header and the big logo area in the homepage hero."
+            value={brandLogoUrl}
+            onChange={setBrandLogoUrl}
+          />
 
           <div className="grid gap-4 lg:grid-cols-3">
             <ImageField

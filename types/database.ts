@@ -30,6 +30,7 @@ export type SiteContentRecord = {
   hero_notes: string[];
   hero_mood_tags: string[];
   hero_manifesto: string[];
+  brand_logo_url: string | null;
   hero_primary_image_url: string | null;
   hero_secondary_image_url: string | null;
   hero_manifesto_image_url: string | null;

@@ -23,6 +23,7 @@ export const defaultSiteContent: SiteContentRecord = {
     "Clothes and objects thought as artworks.",
     "Trashy over clean. Human over mass production.",
   ],
+  brand_logo_url: "/brand/logos/logo-chrome.png",
   hero_primary_image_url: "/brand/models/model-black-jacket.png",
   hero_secondary_image_url: "/brand/models/model-camo.png",
   hero_manifesto_image_url: "/brand/models/model-jeans-graffiti.png",
@@ -59,6 +60,7 @@ function normalizeSiteContent(
     hero_manifesto: Array.isArray(row?.hero_manifesto)
       ? row.hero_manifesto
       : defaultSiteContent.hero_manifesto,
+    brand_logo_url: row?.brand_logo_url ?? defaultSiteContent.brand_logo_url,
     hero_primary_image_url:
       row?.hero_primary_image_url ?? defaultSiteContent.hero_primary_image_url,
     hero_secondary_image_url:
@@ -108,6 +110,7 @@ export function getSiteContentPayload(): SiteContentPayload {
     hero_notes: defaultSiteContent.hero_notes,
     hero_mood_tags: defaultSiteContent.hero_mood_tags,
     hero_manifesto: defaultSiteContent.hero_manifesto,
+    brand_logo_url: defaultSiteContent.brand_logo_url,
     hero_primary_image_url: defaultSiteContent.hero_primary_image_url,
     hero_secondary_image_url: defaultSiteContent.hero_secondary_image_url,
     hero_manifesto_image_url: defaultSiteContent.hero_manifesto_image_url,

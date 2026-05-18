@@ -3,14 +3,17 @@ import Link from "next/link";
 import { AtSign } from "lucide-react";
 import { INSTAGRAM_URL } from "@/lib/constants";
 import { MobileMenu } from "@/components/public/MobileMenu";
+import { getSiteContent } from "@/lib/site-content";
 
-export function Header() {
+export async function Header() {
+  const siteContent = await getSiteContent();
+
   return (
     <header className="sticky top-0 z-40 border-b border-white/8 bg-black/72 backdrop-blur-xl">
       <div className="container-shell flex items-center justify-between py-4">
         <Link href="/" className="inline-flex items-center gap-3">
           <Image
-            src="/brand/logos/logo-chrome.png"
+            src={siteContent.brand_logo_url || "/brand/logos/logo-chrome.png"}
             alt="333XPPP logo"
             width={120}
             height={60}

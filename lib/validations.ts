@@ -50,6 +50,7 @@ export const siteContentSchema = z.object({
   hero_notes: z.array(z.string().min(1)).min(1),
   hero_mood_tags: z.array(z.string().min(1)).min(1),
   hero_manifesto: z.array(z.string().min(1)).min(1),
+  brand_logo_url: imageReferenceSchema.nullable(),
   hero_primary_image_url: imageReferenceSchema.nullable(),
   hero_secondary_image_url: imageReferenceSchema.nullable(),
   hero_manifesto_image_url: imageReferenceSchema.nullable(),

@@ -25,7 +25,7 @@ export async function HeroSection() {
                 </p>
                 <div className="chrome-logo-wrap flex items-center justify-center bg-white/25 p-4">
                   <Image
-                    src="/brand/logos/logo-chrome.png"
+                    src={siteContent.brand_logo_url || "/brand/logos/logo-chrome.png"}
                     alt="333XPPP chrome logo"
                     width={560}
                     height={420}
