@@ -19,14 +19,16 @@ function textToLines(value: string) {
 
 type ImageFieldProps = {
   label: string;
+  helpText?: string;
   value: string | null;
   onChange: (value: string | null) => void;
 };
 
-function ImageField({ label, value, onChange }: ImageFieldProps) {
+function ImageField({ label, helpText, value, onChange }: ImageFieldProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [uploadedDraft, setUploadedDraft] = useState(false);
 
   async function handleUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -34,6 +36,7 @@ function ImageField({ label, value, onChange }: ImageFieldProps) {
 
     setUploading(true);
     setError(null);
+    setUploadedDraft(false);
 
     try {
       const response = await fetch("/api/admin/upload/sign", {
@@ -65,6 +68,7 @@ function ImageField({ label, value, onChange }: ImageFieldProps) {
       }
 
       onChange(upload.publicUrl);
+      setUploadedDraft(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to upload image.");
     } finally {
@@ -78,7 +82,10 @@ function ImageField({ label, value, onChange }: ImageFieldProps) {
   return (
     <div className="space-y-3 rounded-[1.4rem] border border-black/8 p-4">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-medium text-black">{label}</p>
+        <div className="space-y-1">
+          <p className="text-sm font-medium text-black">{label}</p>
+          {helpText ? <p className="text-xs leading-5 text-zinc-500">{helpText}</p> : null}
+        </div>
         <div className="flex gap-2">
           <button
             type="button"
@@ -111,9 +118,18 @@ function ImageField({ label, value, onChange }: ImageFieldProps) {
       <input
         className="admin-input"
         value={value ?? ""}
-        onChange={(event) => onChange(event.target.value || null)}
+        onChange={(event) => {
+          setUploadedDraft(false);
+          onChange(event.target.value || null);
+        }}
         placeholder="https://..."
       />
+
+      {uploadedDraft ? (
+        <p className="text-xs text-emerald-600">
+          Image loaded in the form. Click <span className="font-semibold">Save site content</span> to publish it on the website.
+        </p>
+      ) : null}
 
       {value ? (
         <div className="relative aspect-[4/5] max-w-[220px] overflow-hidden rounded-[1.2rem] border border-black/8 bg-zinc-100">
@@ -146,6 +162,7 @@ export function SiteContentForm({
   const [heroPrimaryImageUrl, setHeroPrimaryImageUrl] = useState(initialContent.hero_primary_image_url);
   const [heroSecondaryImageUrl, setHeroSecondaryImageUrl] = useState(initialContent.hero_secondary_image_url);
   const [heroManifestoImageUrl, setHeroManifestoImageUrl] = useState(initialContent.hero_manifesto_image_url);
+  const [latestDropImageUrl, setLatestDropImageUrl] = useState(initialContent.latest_drop_image_url);
   const [aboutTitle, setAboutTitle] = useState(initialContent.about_title);
   const [aboutSubtitle, setAboutSubtitle] = useState(initialContent.about_subtitle);
   const [aboutIntro, setAboutIntro] = useState(initialContent.about_intro);
@@ -169,6 +186,7 @@ export function SiteContentForm({
       hero_primary_image_url: heroPrimaryImageUrl || null,
       hero_secondary_image_url: heroSecondaryImageUrl || null,
       hero_manifesto_image_url: heroManifestoImageUrl || null,
+      latest_drop_image_url: latestDropImageUrl || null,
       about_title: aboutTitle,
       about_subtitle: aboutSubtitle,
       about_intro: aboutIntro,
@@ -193,6 +211,7 @@ export function SiteContentForm({
       heroCardTitle,
       heroIssueCopy,
       heroIssueTitle,
+      latestDropImageUrl,
       heroManifesto,
       heroManifestoImageUrl,
       heroMoodTags,
@@ -271,10 +290,41 @@ export function SiteContentForm({
           </div>
 
           <div className="grid gap-4 lg:grid-cols-3">
-            <ImageField label="Hero main model image" value={heroPrimaryImageUrl} onChange={setHeroPrimaryImageUrl} />
-            <ImageField label="Hero secondary model image" value={heroSecondaryImageUrl} onChange={setHeroSecondaryImageUrl} />
-            <ImageField label="Manifesto model image" value={heroManifestoImageUrl} onChange={setHeroManifestoImageUrl} />
+            <ImageField
+              label="Hero main model image"
+              helpText="Homepage hero: large image on the left of the image duo."
+              value={heroPrimaryImageUrl}
+              onChange={setHeroPrimaryImageUrl}
+            />
+            <ImageField
+              label="Hero secondary model image"
+              helpText="Homepage hero: smaller stacked image on the right, above the moodboard tags."
+              value={heroSecondaryImageUrl}
+              onChange={setHeroSecondaryImageUrl}
+            />
+            <ImageField
+              label="Manifesto model image"
+              helpText="Homepage hero: image next to the manifesto block lower on the first screen."
+              value={heroManifestoImageUrl}
+              onChange={setHeroManifestoImageUrl}
+            />
           </div>
+        </div>
+      </section>
+
+      <section className="admin-card rounded-[2rem] p-6">
+        <h2 className="text-xl font-semibold text-black">Homepage latest drop</h2>
+        <p className="mt-2 text-sm leading-6 text-zinc-600">
+          Controls the big image inside the “Latest drop / Kitsch magazine / New collection” section.
+        </p>
+
+        <div className="mt-5 grid gap-4">
+          <ImageField
+            label="Latest drop main image"
+            helpText="Homepage: big image on the left of the product cards in the latest drop block."
+            value={latestDropImageUrl}
+            onChange={setLatestDropImageUrl}
+          />
         </div>
       </section>
 
@@ -303,7 +353,12 @@ export function SiteContentForm({
             <textarea className="admin-input min-h-28" value={aboutTags} onChange={(event) => setAboutTags(event.target.value)} />
             <p className="mt-2 text-xs text-zinc-500">One line = one tag.</p>
           </div>
-          <ImageField label="About page image" value={aboutImageUrl} onChange={setAboutImageUrl} />
+          <ImageField
+            label="About page image"
+            helpText="Used in the public About section/page."
+            value={aboutImageUrl}
+            onChange={setAboutImageUrl}
+          />
         </div>
       </section>
 

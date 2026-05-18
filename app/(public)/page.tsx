@@ -4,10 +4,12 @@ import { ContactCTA } from "@/components/public/ContactCTA";
 import { FeaturedProducts } from "@/components/public/FeaturedProducts";
 import { HeroSection } from "@/components/public/HeroSection";
 import { getFeaturedProducts, getLatestDropProducts } from "@/lib/products";
+import { getSiteContent } from "@/lib/site-content";
 
 export default async function HomePage() {
   const featuredProducts = await getFeaturedProducts();
   const latestDrop = await getLatestDropProducts();
+  const siteContent = await getSiteContent();
 
   return (
     <>
@@ -36,7 +38,7 @@ export default async function HomePage() {
             <div className="mt-4 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
               <div className="image-panel overflow-hidden bg-black">
                 <Image
-                  src="/brand/models/model-camo.png"
+                  src={siteContent.latest_drop_image_url || "/brand/models/model-camo.png"}
                   alt="333XPPP lookbook model"
                   width={386}
                   height={551}

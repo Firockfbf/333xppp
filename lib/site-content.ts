@@ -26,6 +26,7 @@ export const defaultSiteContent: SiteContentRecord = {
   hero_primary_image_url: "/brand/models/model-black-jacket.png",
   hero_secondary_image_url: "/brand/models/model-camo.png",
   hero_manifesto_image_url: "/brand/models/model-jeans-graffiti.png",
+  latest_drop_image_url: "/brand/models/model-camo.png",
   about_title: "upcycling",
   about_subtitle: "as attitude",
   about_intro: "Handmade, anti-fast fashion, no-gender and rooted in underground culture.",
@@ -64,6 +65,8 @@ function normalizeSiteContent(
       row?.hero_secondary_image_url ?? defaultSiteContent.hero_secondary_image_url,
     hero_manifesto_image_url:
       row?.hero_manifesto_image_url ?? defaultSiteContent.hero_manifesto_image_url,
+    latest_drop_image_url:
+      row?.latest_drop_image_url ?? defaultSiteContent.latest_drop_image_url,
     about_title: row?.about_title ?? defaultSiteContent.about_title,
     about_subtitle: row?.about_subtitle ?? defaultSiteContent.about_subtitle,
     about_intro: row?.about_intro ?? defaultSiteContent.about_intro,
@@ -108,6 +111,7 @@ export function getSiteContentPayload(): SiteContentPayload {
     hero_primary_image_url: defaultSiteContent.hero_primary_image_url,
     hero_secondary_image_url: defaultSiteContent.hero_secondary_image_url,
     hero_manifesto_image_url: defaultSiteContent.hero_manifesto_image_url,
+    latest_drop_image_url: defaultSiteContent.latest_drop_image_url,
     about_title: defaultSiteContent.about_title,
     about_subtitle: defaultSiteContent.about_subtitle,
     about_intro: defaultSiteContent.about_intro,

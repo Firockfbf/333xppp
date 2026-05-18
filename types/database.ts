@@ -33,6 +33,7 @@ export type SiteContentRecord = {
   hero_primary_image_url: string | null;
   hero_secondary_image_url: string | null;
   hero_manifesto_image_url: string | null;
+  latest_drop_image_url: string | null;
   about_title: string;
   about_subtitle: string;
   about_intro: string;

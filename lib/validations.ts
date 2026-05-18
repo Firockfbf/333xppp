@@ -53,6 +53,7 @@ export const siteContentSchema = z.object({
   hero_primary_image_url: imageReferenceSchema.nullable(),
   hero_secondary_image_url: imageReferenceSchema.nullable(),
   hero_manifesto_image_url: imageReferenceSchema.nullable(),
+  latest_drop_image_url: imageReferenceSchema.nullable(),
   about_title: z.string().min(2),
   about_subtitle: z.string().min(2),
   about_intro: z.string().min(8),

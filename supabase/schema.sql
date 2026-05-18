@@ -57,6 +57,7 @@ create table if not exists public.site_content (
   hero_primary_image_url text,
   hero_secondary_image_url text,
   hero_manifesto_image_url text,
+  latest_drop_image_url text,
   about_title text not null default 'upcycling',
   about_subtitle text not null default 'as attitude',
   about_intro text not null default 'Handmade, anti-fast fashion, no-gender and rooted in underground culture.',
@@ -67,6 +68,9 @@ create table if not exists public.site_content (
   contact_subtitle text not null default 'DM to commission',
   contact_body text not null default 'Orders happen through Instagram DM in this first version. Custom pieces are open on request depending on materials, timeline and concept.'
 );
+
+alter table public.site_content
+add column if not exists latest_drop_image_url text;
 
 create table if not exists public.admin_users (
   user_id uuid primary key references auth.users(id) on delete cascade,
